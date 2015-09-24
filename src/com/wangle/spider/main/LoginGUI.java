@@ -98,21 +98,21 @@ public class LoginGUI extends JFrame {
 		//学号
 		id_label = new JLabel("学号：");
 		id_label.setForeground(Color.WHITE);
-		id_label.setFont(new Font("宋体", Font.PLAIN, 20));
+		id_label.setFont(new Font("宋体", Font.PLAIN, 18));
 		id_label.setBounds(99, 83, 81, 21);
 		contentPane.add(id_label);
 
 		//密码
 		pwd_label = new JLabel("密码：");
 		pwd_label.setForeground(Color.WHITE);
-		pwd_label.setFont(new Font("宋体", Font.PLAIN, 20));
+		pwd_label.setFont(new Font("宋体", Font.PLAIN, 18));
 		pwd_label.setBounds(99, 119, 81, 21);
 		contentPane.add(pwd_label);
 
 		//验证码
 		val_label = new JLabel("验证码：");
 		val_label.setForeground(Color.WHITE);
-		val_label.setFont(new Font("宋体", Font.PLAIN, 20));
+		val_label.setFont(new Font("宋体", Font.PLAIN, 18));
 		val_label.setBounds(99, 183, 81, 21);
 		contentPane.add(val_label);
 
@@ -166,7 +166,7 @@ public class LoginGUI extends JFrame {
 		//学号输入框
 		id = new JTextField();
 		id.setBackground(new Color(204, 255, 255));
-		id.setFont(new Font("宋体", Font.PLAIN, 20));
+		id.setFont(new Font("宋体", Font.PLAIN, 18));
 		id.setBounds(162, 80, 274, 27);
 		id.setBorder(BorderFactory.createLineBorder(new Color(80, 80, 255)));
 		id.addFocusListener(new FocusListener(){
@@ -208,7 +208,7 @@ public class LoginGUI extends JFrame {
 		//密码输入框
 		pwd = new JPasswordField();
 		pwd.setBackground(new Color(204, 255, 255));
-		pwd.setFont(new Font("宋体", Font.PLAIN, 20));
+		pwd.setFont(new Font("宋体", Font.PLAIN, 18));
 		pwd.setEchoChar('·');
 		pwd.setBounds(162, 119, 274, 27);
 		pwd.setBorder(BorderFactory.createLineBorder(new Color(80, 80, 255)));
@@ -229,7 +229,7 @@ public class LoginGUI extends JFrame {
 		//验证码输入框
 		xdvfb = new JTextField();
 		xdvfb.setBackground(new Color(204, 255, 255));
-		xdvfb.setFont(new Font("宋体", Font.PLAIN, 20));
+		xdvfb.setFont(new Font("宋体", Font.PLAIN, 18));
 		xdvfb.setBounds(189, 180, 96, 27);
 		xdvfb.setBorder(BorderFactory.createLineBorder(new Color(80, 80, 255)));
 		xdvfb.addFocusListener(new FocusListener(){
@@ -250,7 +250,7 @@ public class LoginGUI extends JFrame {
 		//登录按钮
 		JButton loginBT = new JButton("登录");
 		loginBT.setForeground(new Color(0, 0, 0));
-		loginBT.setFont(new Font("宋体", Font.PLAIN, 24));
+		loginBT.setFont(new Font("宋体", Font.PLAIN, 22));
 		loginBT.setBackground(new Color(30, 144, 255));
 		loginBT.setBorder(BorderFactory.createLineBorder(new Color(33, 147, 239)));
 		loginBT.setBounds(226, 244, 123, 29);
@@ -312,11 +312,11 @@ public class LoginGUI extends JFrame {
 		JMenuItem help=new JMenuItem("帮助");
 		help.setBackground(Color.WHITE);
 		help.setForeground(new Color(0, 0, 0));
-		help.setFont(new Font("Microsoft YaHei UI", Font.PLAIN, 20));
+		help.setFont(new Font("Microsoft YaHei UI", Font.PLAIN, 18));
 		JMenuItem about=new JMenuItem("关于");
 		about.setBackground(Color.WHITE);
 		about.setForeground(new Color(0, 0, 0));
-		about.setFont(new Font("Microsoft YaHei UI", Font.PLAIN, 20));
+		about.setFont(new Font("Microsoft YaHei UI", Font.PLAIN, 18));
 
 		//添加菜单点击监听器
 		help.addActionListener(new ActionListener(){
@@ -362,7 +362,7 @@ class About extends JDialog{
 		JPanel panel = new JPanel();
 		panel.setBackground(new Color(153, 204, 255));
 		panel.setBorder(new EmptyBorder(5, 5, 5, 5));
-		panel=(JPanel)getContentPane(); 
+		panel=(JPanel)getContentPane();
 		panel.setOpaque(false);
 		panel.setLayout(null);
 

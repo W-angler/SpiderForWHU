@@ -77,7 +77,8 @@ public class ResultGUI extends JFrame {
 		int width = (int)screensize.getWidth();
 		int height = (int)screensize.getHeight();
 		//居中显示
-		setBounds(width/2-800, height/2-400, 1600, 800);
+		//setBounds(width/2-800, height/2-400, 1600, 800);	我的电脑分辨率太大了……结果在别人电脑上测试完全占用了整个屏幕
+		setBounds(width/2-600, height/2-300, 1200, 600);
 
 		Container container = this.getContentPane();
 
@@ -103,14 +104,14 @@ public class ResultGUI extends JFrame {
 		}
 		JTable table = new JTable(data,headers);
 		//设置table的显示属性
-		table.setRowHeight(30);
-		table.setFont(new Font("宋体", Font.PLAIN, 19));
+		table.setRowHeight(28);
+		table.setFont(new Font("宋体", Font.PLAIN, 18));
 		table.setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS);
 		table.setGridColor(new Color(80, 180, 255));
 		//设置表头
 		table.getTableHeader().setReorderingAllowed(false);
 		table.getTableHeader().setResizingAllowed(false);
-		table.getTableHeader().setFont(new Font("宋体", Font.BOLD, 22));
+		table.getTableHeader().setFont(new Font("宋体", Font.BOLD, 20));
 		table.getTableHeader().setBackground(new Color(33, 147, 229));
 		table.getTableHeader().setBorder(BorderFactory.createLineBorder(new Color(33, 147, 239)));
 		//根据内容调整列宽
