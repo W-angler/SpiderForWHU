@@ -174,12 +174,15 @@ public class ResultGUI extends JFrame {
 
 				JFileChooser chooser=new JFileChooser(".");
 				chooser.setSelectedFile(new File("成绩单.xls"));
-				FileFilter filter = new FileNameExtensionFilter("xsl",".xsl");
+				FileFilter filter = new FileNameExtensionFilter("xls",".xls");
 				chooser.setFileFilter(filter);//开始过滤
 				int flag=chooser.showSaveDialog(getParent());
 				if(flag==JFileChooser.APPROVE_OPTION){
 					File file=chooser.getSelectedFile();
 					String fileName=file.getAbsolutePath();
+					if(!fileName.endsWith(".xls")){
+						fileName+=".xls";
+					}
 					Excel<Project> excel=new Excel<Project>();
 					if (file.exists()){
 						int copy = JOptionPane.showConfirmDialog(null,"文件已存在，是否要覆盖当前文件？",
