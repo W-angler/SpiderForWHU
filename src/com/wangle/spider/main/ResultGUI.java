@@ -148,21 +148,21 @@ public class ResultGUI extends JFrame {
 				LinkedList<String> resourceList=pageTool.getResourceList();
 
 				//下载成绩网页
-				netTool.saveToFile("./result/html/成绩页面.html", result);
+				netTool.saveToFile("result/html/成绩页面.html", result);
 				//下载相关资源
 				for(int i=0;i<resourceList.size();i++){
 					String url=resourceList.get(i);
 					String temp=netTool.downloadResource(url);
-					String path=url.replaceAll("http://"+host, "./result").replaceAll("\\?.*", "");
+					String path=url.replaceAll("http://"+host, "result").replaceAll("\\?.*", "");
 					netTool.saveToFile(path, temp);
 				}
 				//按钮图片
 				BufferedImage img1=netTool.downloadImage("http://210.42.121.241/images/btn_bg.png");
-				netTool.saveToFile("./result/images/btn_bg.png", img1);
+				netTool.saveToFile("result/images/btn_bg.png", img1);
 				BufferedImage img2=netTool.downloadImage("http://210.42.121.241/images/button_bg.png");
-				netTool.saveToFile("./result/images/button_bg.png", img2);
+				netTool.saveToFile("result/images/button_bg.png", img2);
 
-				File file=new File("./result/html/成绩页面.html");
+				File file=new File("result/html/成绩页面.html");
 				JOptionPane.showConfirmDialog(null,"网页已经导入至："+file.getAbsolutePath(),
 						"确定", JOptionPane.DEFAULT_OPTION,JOptionPane.INFORMATION_MESSAGE);
 			}
