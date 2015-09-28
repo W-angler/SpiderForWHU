@@ -4,3 +4,10 @@
 
 BUG：
 导出excel的路径问题，已修复
+
+增加了导出至MySQL数据库的功能，可能会有点用
+数据库结构很简单，就一个表
+创建一个叫grade的数据库，字符集为utf8
+CREATE DATABASE grade CHARACTER SET utf8
+
+还有就是奖学金啊奖学金，水水过，随便计算一下下（没有将某些选修当做b1的情况下）

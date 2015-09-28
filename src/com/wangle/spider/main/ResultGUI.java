@@ -12,6 +12,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -20,6 +22,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.Enumeration;
 import java.util.LinkedList;
+import java.util.Properties;
 
 import javax.swing.BorderFactory;
 import javax.swing.JFileChooser;
@@ -355,11 +358,41 @@ public class ResultGUI extends JFrame {
 		return list;
 	}
 
+	
+	//数据库操作，烦人的JDBC代码
+	
+	/**
+	 * 获得数据库配置
+	 * @return 数据库配置
+	 */
+	public String[] getDatabaseProperties(){
+		Properties prop=new Properties();
+		String driverClass=null;
+		String url=null;
+		String user=null;
+		String password=null;
+		try {
+			FileInputStream in=new FileInputStream("database.properties");
+			prop.load(in);
+			driverClass=prop.getProperty("driverClass");
+			url=prop.getProperty("url");
+			user=prop.getProperty("user");
+			password=prop.getProperty("password");
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		
+		return new String[]{driverClass,url,user,password};
+	}
+	/**
+	 * 导出到数据库
+	 */
 	public void exportDatabase(){
-		String driverClass="com.mysql.jdbc.Driver";
-		String url="jdbc:mysql://localhost:3306/grade?characterEncoding=utf8";
-		String user="root";
-		String password="048117wang";
+		String[] prop=this.getDatabaseProperties();
+		String driverClass=prop[0];
+		String url=prop[1];
+		String user=prop[2];
+		String password=prop[3];
 		try {
 			Class.forName(driverClass);
 		} catch (ClassNotFoundException e) {
@@ -419,12 +452,18 @@ public class ResultGUI extends JFrame {
 			}
 		}
 	}
+	/**
+	 * 当前姓名的成绩是否在数据库中
+	 * @param name 姓名
+	 * @return 是否
+	 */
 	public boolean isInDatabase(String name){
 		boolean in=false;
-		String driverClass="com.mysql.jdbc.Driver";
-		String url="jdbc:mysql://localhost:3306/grade?characterEncoding=utf8";
-		String user="root";
-		String password="048117wang";
+		String[] prop=this.getDatabaseProperties();
+		String driverClass=prop[0];
+		String url=prop[1];
+		String user=prop[2];
+		String password=prop[3];
 		try {
 			Class.forName(driverClass);
 		} catch (ClassNotFoundException e){
@@ -464,11 +503,17 @@ public class ResultGUI extends JFrame {
 		}
 		return in;
 	}
+	/**
+	 * 从数据库中获取成绩列表
+	 * @param owner_name 姓名
+	 * @return 成绩列表
+	 */
 	public LinkedList<Project> getListFromDatabase(String owner_name){
-		String driverClass="com.mysql.jdbc.Driver";
-		String url="jdbc:mysql://localhost:3306/grade?characterEncoding=utf8";
-		String user="root";
-		String password="048117wang";
+		String[] prop=this.getDatabaseProperties();
+		String driverClass=prop[0];
+		String url=prop[1];
+		String user=prop[2];
+		String password=prop[3];
 		try {
 			Class.forName(driverClass);
 		} catch (ClassNotFoundException e){
