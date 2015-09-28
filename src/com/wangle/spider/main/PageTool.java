@@ -191,7 +191,7 @@ public class PageTool {
 						//获取src属性
 						String src=((ScriptTag) node).getAttribute("src");
 						if(src!=null){
-							Pattern pattern=Pattern.compile(host);
+							Pattern pattern=Pattern.compile("http://");
 							Matcher matcher=pattern.matcher(src);
 							if(!matcher.find()){
 								src="http://"+host+"/"+src.replaceAll("^\\.\\./|^\\./|^/", "");
@@ -206,7 +206,7 @@ public class PageTool {
 					else{
 						//获取href属性
 						String href=((TagNode) node).getAttribute("href");
-						Pattern pattern=Pattern.compile(host);
+						Pattern pattern=Pattern.compile("http://");
 						Matcher matcher=pattern.matcher(href);
 						if(!matcher.find()){
 							//同上
@@ -241,7 +241,7 @@ public class PageTool {
 					if(node instanceof ImageTag){
 						//获取src属性
 						String href=((ImageTag) node).getAttribute("src");
-						Pattern pattern=Pattern.compile(host);
+						Pattern pattern=Pattern.compile("http://");
 						Matcher matcher=pattern.matcher(href);
 						if(!matcher.find()){
 							href="http://"+host+"/"+href.replaceAll("^\\.\\./|^\\./|^/", "");
@@ -254,7 +254,7 @@ public class PageTool {
 					else{
 						//获取backgound属性
 						String backgound=((ImageTag) node).getAttribute("backgound");
-						Pattern pattern=Pattern.compile(host);
+						Pattern pattern=Pattern.compile("http://");
 						Matcher matcher=pattern.matcher(backgound);
 						if(!matcher.find()){
 							backgound="http://"+host+"/"+backgound.replaceAll("^\\.\\./|^\\./|^/", "");

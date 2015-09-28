@@ -1,6 +1,8 @@
 package com.wangle.spider.main;
 
 import java.util.LinkedList;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * 分析课程，获得加权绩点，加权平均分
@@ -83,6 +85,53 @@ public class AnalyseProject {
 		}
 	}
 
+	/*
+	 * 嗯嗯，最近评奖学金，这个用来算必修与选修的分数
+	 */
+	//必修的分数
+	public double getRequired(){
+
+		double totalGrade=0.0;		//成绩*学分
+		double totalCredit=0.0;		//总学分
+		for(int j=0;j<list.size();j++){
+			Project project=list.get(j);
+			Pattern pattern=Pattern.compile("必修");
+			Matcher matcher=pattern.matcher(project.getType());
+			if(matcher.find()){
+				if(!project.getGrade().equals("")){
+					totalCredit=totalCredit+Double.parseDouble(list.get(j).getCredit());
+				}
+			}
+		}
+		for(int j=0;j<list.size();j++){
+			Project project=list.get(j);
+			Pattern pattern=Pattern.compile("必修");
+			Matcher matcher=pattern.matcher(project.getType());
+			if(matcher.find()){
+				if(!list.get(j).getGrade().equals("")){
+					double temp=Double.parseDouble(list.get(j).getGrade());
+					totalGrade+=(Double.parseDouble(list.get(j).getCredit()))*temp;
+				}
+			}
+		}
+		return totalGrade/totalCredit;
+	}
+	//选修的分数
+	public double getElective(){
+		double totalGrade=0.0;		//成绩*学分
+		for(int j=0;j<list.size();j++){
+			Project project=list.get(j);
+			Pattern pattern=Pattern.compile("选修");
+			Matcher matcher=pattern.matcher(project.getType());
+			if(matcher.find()){
+				if(!list.get(j).getGrade().equals("")){
+					double temp=Double.parseDouble(list.get(j).getGrade());
+					totalGrade+=(Double.parseDouble(list.get(j).getCredit()))*temp;
+				}
+			}
+		}
+		return totalGrade*0.002;
+	}
 	public void setList(LinkedList<Project> list) {
 		this.list = list;
 	}

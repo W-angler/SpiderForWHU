@@ -413,10 +413,13 @@ class Help extends JDialog{
 		JLabel label=new JLabel("",JLabel.CENTER);
 		String text="<html>"+
 				"<h1 align=\"center\">帮助</h1><br>"+
-				"<p>1、输入正确的学号密码登录</p><br>"+
-				"<p>2、点击验证码刷新</p><br>"+
-				"<p>3、成绩界面，点击导出->导出为HTML,导出网页文件</p><br>"+
-				"<p>4、成绩界面，点击导出->导出为Excel,导出Excel</p><br>"+
+				"<p>1、输入正确的学号密码登录</p>"+
+				"<p>2、点击验证码刷新</p>"+
+				"<p>3、成绩界面，点击导出->导出为HTML,导出网页文件</p>"+
+				"<p>4、成绩界面，点击导出->导出为Excel,导出Excel</p>"+
+				"<p>5、成绩界面，点击导出->导出至数据库,导出数据库</p>"+
+				"<p>6、成绩界面，点击导出->奖学金分析,分析奖学金</p>"+
+				"<p>（仅限于没有将某些选修当做b1）</p>"+
 				"<p></p><br><br>"+
 				"</html>";
 		label.setText(text);

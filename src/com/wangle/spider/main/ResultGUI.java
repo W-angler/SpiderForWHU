@@ -12,6 +12,12 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 import java.io.File;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.Enumeration;
 import java.util.LinkedList;
 
@@ -52,8 +58,14 @@ public class ResultGUI extends JFrame {
 		this.setResult(result);
 		this.name=name;
 
-		PageTool pageTool=new PageTool(result,host);
-		list=pageTool.getProjectList();
+		String _name=this.getName();
+		if(!isInDatabase(_name)){
+			PageTool pageTool=new PageTool(result,host);
+			list=pageTool.getProjectList();
+		}
+		else{
+			list=this.getListFromDatabase(_name);
+		}
 
 		setForeground(new Color(153, 204, 255));
 		setBackground(new Color(153, 204, 255));
@@ -132,10 +144,21 @@ public class ResultGUI extends JFrame {
 		html.setBackground(Color.WHITE);
 		html.setForeground(new Color(0, 0, 0));
 		html.setFont(new Font("Microsoft YaHei UI", Font.PLAIN, 18));
+
 		JMenuItem excel=new JMenuItem("导出为Excel");
 		excel.setBackground(Color.WHITE);
 		excel.setForeground(new Color(0, 0, 0));
 		excel.setFont(new Font("Microsoft YaHei UI", Font.PLAIN, 18));
+
+		JMenuItem database=new JMenuItem("导出至数据库");
+		database.setBackground(Color.WHITE);
+		database.setForeground(new Color(0, 0, 0));
+		database.setFont(new Font("Microsoft YaHei UI", Font.PLAIN, 18));
+
+		JMenuItem pride=new JMenuItem("奖学金分析");
+		pride.setBackground(Color.WHITE);
+		pride.setForeground(new Color(0, 0, 0));
+		pride.setFont(new Font("Microsoft YaHei UI", Font.PLAIN, 18));
 
 		//添加菜单点击监听器
 		html.addActionListener(new ActionListener(){
@@ -201,8 +224,43 @@ public class ResultGUI extends JFrame {
 				}
 			}
 		});
+		database.addActionListener(new ActionListener(){
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				try{
+					if(!isInDatabase(_name)){
+						exportDatabase();
+						JOptionPane.showConfirmDialog(null,"成绩已经导出至数据库",
+								"确定", JOptionPane.DEFAULT_OPTION,JOptionPane.INFORMATION_MESSAGE);
+					}
+					else{
+						JOptionPane.showConfirmDialog(null,"成绩已存在数据库中",
+								"确定", JOptionPane.DEFAULT_OPTION,JOptionPane.INFORMATION_MESSAGE);
+					}
+				}
+				catch(Exception e){
+					JOptionPane.showConfirmDialog(null,"你确定你导入数据库了？",
+							"我错了，马上去！", JOptionPane.ERROR_MESSAGE,JOptionPane.INFORMATION_MESSAGE);
+				}
+			}
+		});
+
+		pride.addActionListener(new ActionListener(){
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+
+				JOptionPane.showConfirmDialog(null,
+						"必修："+
+								String.format("%.5f", new Double(analyse.getRequired()))+
+								"选修："+
+								String.format("%.5f", new Double(analyse.getElective())),
+								"确定", JOptionPane.DEFAULT_OPTION,JOptionPane.INFORMATION_MESSAGE);
+			}
+		});
 		menu.add(html);
 		menu.add(excel);
+		menu.add(database);
+		menu.add(pride);
 
 		JMenuBar bar=new JMenuBar();
 		bar.setBackground(Color.WHITE);
@@ -295,5 +353,173 @@ public class ResultGUI extends JFrame {
 
 	public LinkedList<Project> getList() {
 		return list;
+	}
+
+	public void exportDatabase(){
+		String driverClass="com.mysql.jdbc.Driver";
+		String url="jdbc:mysql://localhost:3306/grade?characterEncoding=utf8";
+		String user="root";
+		String password="048117wang";
+		try {
+			Class.forName(driverClass);
+		} catch (ClassNotFoundException e) {
+			e.printStackTrace();
+		}
+
+		Connection con=null;
+		PreparedStatement preSta=null;
+		Statement sta=null;
+		try {
+			con=DriverManager.getConnection(url,user,password);
+			String name=this.getName();
+			String[] s=name.split("—");
+			preSta=con.prepareStatement("INSERT INTO projects VALUES("+
+					"\""+s[1]+"\",?,?,?,?,?,?,?,?,?,?)");
+			for(int k=0;k<this.list.size();k++){
+
+				Project project=this.list.get(k);
+
+				preSta.setString(1,project.getHead());
+				preSta.setString(2,project.getName());
+				preSta.setString(3,project.getType());
+				preSta.setString(4,project.getCredit());
+				preSta.setString(5,project.getTeacher());
+				preSta.setString(6,project.getAcademy());
+				preSta.setString(7,project.getLearnType());
+				preSta.setString(8,project.getYear());
+				preSta.setString(9,project.getTerm());
+				preSta.setString(10,project.getGrade());
+
+				preSta.executeUpdate();
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		finally{
+			if(con!=null){
+				try {
+					con.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+			}
+			if(preSta!=null){
+				try {
+					preSta.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+			}
+			if(sta!=null){
+				try {
+					sta.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+			}
+		}
+	}
+	public boolean isInDatabase(String name){
+		boolean in=false;
+		String driverClass="com.mysql.jdbc.Driver";
+		String url="jdbc:mysql://localhost:3306/grade?characterEncoding=utf8";
+		String user="root";
+		String password="048117wang";
+		try {
+			Class.forName(driverClass);
+		} catch (ClassNotFoundException e){
+			e.printStackTrace();
+		}
+
+		Connection con=null;
+		Statement sta=null;
+		try{
+			con=DriverManager.getConnection(url,user,password);
+			sta=con.createStatement();
+			String[] s=name.split("—");
+			ResultSet result=sta.executeQuery("SELECT COUNT(*) FROM projects WHERE owner_name=\""+s[1]+"\"");
+			if(result.next()){
+				int num=result.getInt(1);
+				in=(num!=0);
+			}
+		}
+		catch(SQLException e){
+			e.printStackTrace();
+		}
+		finally{
+			if(con!=null){
+				try {
+					con.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+			}
+			if(sta!=null){
+				try {
+					sta.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+			}
+		}
+		return in;
+	}
+	public LinkedList<Project> getListFromDatabase(String owner_name){
+		String driverClass="com.mysql.jdbc.Driver";
+		String url="jdbc:mysql://localhost:3306/grade?characterEncoding=utf8";
+		String user="root";
+		String password="048117wang";
+		try {
+			Class.forName(driverClass);
+		} catch (ClassNotFoundException e){
+			e.printStackTrace();
+		}
+
+		LinkedList<Project> projectList=new LinkedList<Project>();
+		Connection con=null;
+		Statement sta=null;
+		try{
+			con=DriverManager.getConnection(url,user,password);
+			sta=con.createStatement();
+			String[] s=owner_name.split("—");
+			ResultSet result=sta.executeQuery("SELECT * FROM projects WHERE owner_name=\""+s[1]+"\"");
+			while(result.next()){
+				String head=result.getString(2);
+				String name=result.getString(3);
+				String type=result.getString(4);
+				String credit=result.getString(5);
+				String teacher=result.getString(6);
+				String academy=result.getString(7);
+				String learnType=result.getString(8);
+				String year=result.getString(9);
+				String term=result.getString(10);
+				String grade=result.getString(11);
+				projectList.add(new Project(head, name,
+						type, credit,
+						teacher, academy,
+						learnType, year,
+						term, grade));
+			}
+		}
+		catch(SQLException e){
+			e.printStackTrace();
+		}
+		finally{
+			if(con!=null){
+				try {
+					con.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+			}
+			if(sta!=null){
+				try {
+					sta.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+			}
+		}
+		return projectList;
 	}
 }

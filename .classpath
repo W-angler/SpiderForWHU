@@ -6,5 +6,6 @@
 	<classpathentry kind="con" path="org.eclipse.jdt.junit.JUNIT_CONTAINER/4"/>
 	<classpathentry kind="lib" path="lib/poi-3.12-20150511.jar"/>
 	<classpathentry kind="lib" path="lib/htmlparser.jar"/>
+	<classpathentry kind="lib" path="lib/mysql-connector.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
