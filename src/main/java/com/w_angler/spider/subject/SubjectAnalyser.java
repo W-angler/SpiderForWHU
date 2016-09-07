@@ -87,37 +87,43 @@ public class SubjectAnalyser {
 	 * 嗯嗯，最近评奖学金，这个用来算必修与选修的分数
 	 */
 	//必修的分数
-	public double getRequired(){
+	public double getRequired(int grade){
 		double totalGrade=0.0;		//成绩*学分
 		double totalCredit=0.0;		//总学分
 		for(int j=0;j<list.size();j++){
 			Subject subject=list.get(j);
-			if(subject.getType().contains("必修")){
-				if(!subject.getGrade().equals("")){
-					totalCredit=totalCredit+Double.parseDouble(list.get(j).getCredit());
+			if(Integer.parseInt(subject.getYear())==grade){
+				if(subject.getType().contains("必修")){
+					if(!subject.getGrade().equals("")){
+						totalCredit=totalCredit+Double.parseDouble(list.get(j).getCredit());
+					}
 				}
 			}
 		}
 		for(int j=0;j<list.size();j++){
 			Subject subject=list.get(j);
-			if(subject.getType().contains("必修")){
-				if(!list.get(j).getGrade().equals("")){
-					totalGrade+=(Double.parseDouble(list.get(j).getCredit()))
-							*Double.parseDouble(list.get(j).getGrade());
+			if(Integer.parseInt(subject.getYear())==grade){
+				if(subject.getType().contains("必修")){
+					if(!list.get(j).getGrade().equals("")){
+						totalGrade+=(Double.parseDouble(list.get(j).getCredit()))
+								*Double.parseDouble(list.get(j).getGrade());
+					}
 				}
 			}
 		}
 		return totalGrade/totalCredit;
 	}
 	//选修的分数
-	public double getElective(){
+	public double getElective(int grade){
 		double totalGrade=0.0;		//成绩*学分
 		for(int j=0;j<list.size();j++){
 			Subject subject=list.get(j);
-			if(subject.getType().contains("选修")){
-				if(!list.get(j).getGrade().equals("")){
-					totalGrade+=(Double.parseDouble(list.get(j).getCredit()))
-					*Double.parseDouble(list.get(j).getGrade());
+			if(Integer.parseInt(subject.getYear())==grade){
+				if(subject.getType().contains("选修")){
+					if(!list.get(j).getGrade().equals("")){
+						totalGrade+=(Double.parseDouble(list.get(j).getCredit()))
+								*Double.parseDouble(list.get(j).getGrade());
+					}
 				}
 			}
 		}

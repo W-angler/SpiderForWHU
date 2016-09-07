@@ -205,9 +205,10 @@ public class ResultGUI extends JFrame {
 				pride.addActionListener(new ActionListener(){
 					@Override
 					public void actionPerformed(ActionEvent arg0) {
+						int year=Integer.parseInt(JOptionPane.showInputDialog(null, "请输入学年", "奖学金分析",JOptionPane.INFORMATION_MESSAGE));
 						JOptionPane.showConfirmDialog(null,
-								"必修："+String.format("%.5f", new Double(analyser.getRequired()))+
-								"选修："+String.format("%.5f", new Double(analyser.getElective())),
+								"必修："+String.format("%.5f", new Double(analyser.getRequired(year)))+
+								"选修："+String.format("%.5f", new Double(analyser.getElective(year))),
 								"确定", JOptionPane.DEFAULT_OPTION,JOptionPane.INFORMATION_MESSAGE);
 					}
 				});
