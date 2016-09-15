@@ -140,6 +140,11 @@ public class ResultGUI extends JFrame {
 			pride.setBackground(Color.WHITE);
 			pride.setForeground(new Color(0, 0, 0));
 			pride.setFont(new Font("宋体", Font.PLAIN, 18));
+			
+			JMenuItem postgraduate=new JMenuItem("保研");
+			postgraduate.setBackground(Color.WHITE);
+			postgraduate.setForeground(new Color(0, 0, 0));
+			postgraduate.setFont(new Font("宋体", Font.PLAIN, 18));
 			//添加菜单点击监听器
 			{
 				html.addActionListener(new ActionListener(){
@@ -213,9 +218,23 @@ public class ResultGUI extends JFrame {
 					}
 				});
 			}
+			{
+				postgraduate.addActionListener(new ActionListener(){
+
+					@Override
+					public void actionPerformed(ActionEvent arg0) {
+						double rest=Double.parseDouble(JOptionPane.showInputDialog(null, "请输入剩余必修学分", "保研",JOptionPane.INFORMATION_MESSAGE));
+						JOptionPane.showConfirmDialog(null,
+								"目前："+String.format("%.5f", new Double(analyser.getPostgraduate()))+
+								"理论："+String.format("%.5f", new Double(analyser.getPostgraduate(rest))),
+								"确定", JOptionPane.DEFAULT_OPTION,JOptionPane.INFORMATION_MESSAGE);
+					}
+				});
+			}
 			menu.add(html);
 			menu.add(excel);
 			menu.add(pride);
+			menu.add(postgraduate);
 
 			JMenuBar bar=new JMenuBar();
 			bar.setBackground(Color.WHITE);

@@ -129,4 +129,38 @@ public class SubjectAnalyser {
 		}
 		return totalGrade*0.002;
 	}
+	//保研绩点计算
+	/**
+	 * 理论可达最高绩点 
+	 * @param rest 剩余学分
+	 * @return
+	 */
+	public double getPostgraduate(double rest){
+		double totalGPA=4.0*rest;		//绩点*学分
+		double totalCredit=0.0+rest;		//总学分
+		for(int j=0;j<list.size();j++){
+			Subject subject=list.get(j);
+			if(subject.getType().contains("必修")){
+				if(!subject.getGrade().equals("")){
+					totalCredit=totalCredit+Double.parseDouble(list.get(j).getCredit());
+				}
+			}
+		}
+		for(int j=0;j<list.size();j++){
+			Subject subject=list.get(j);
+			if(subject.getType().contains("必修")){
+				if(!subject.getGrade().equals("")){
+					totalGPA+=(this.getGPA(list.get(j)))
+							*(Double.parseDouble(list.get(j).getCredit()));
+				}
+			}
+		}
+		return totalGPA/totalCredit;
+	}
+	/**
+	 * 目前的绩点
+	 */
+	public double getPostgraduate(){
+		return this.getPostgraduate(0);
+	}
 }
