@@ -31,7 +31,7 @@ public class Account {
 		return accounts;
 	}
 	public static String getPassword(String id){
-		return prop.getProperty(id);
+		return id==null?"":prop.getProperty(id);
 	}
 	public static void add(String id,String password){
 		prop.put(id, password);
