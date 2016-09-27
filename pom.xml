@@ -2,10 +2,10 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.w_angler</groupId>
-	<artifactId>sprider</artifactId>
+	<artifactId>spider</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>sprider</name>
-	<description>A sprider for WHU</description>
+	<name>spider</name>
+	<description>A spider for WHU</description>
 	<dependencies>
 		<dependency>
 			<groupId>org.apache.poi</groupId>
@@ -23,4 +23,25 @@
 			<version>4.12</version>
 		</dependency>
 	</dependencies>
+    <build>
+        <finalName>spider</finalName>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <configuration>
+                    <source>1.8</source>
+                    <target>1.8</target>
+                    <encoding>UTF-8</encoding>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-resources-plugin</artifactId>
+                <configuration>
+                    <encoding>UTF-8</encoding>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
 </project>
