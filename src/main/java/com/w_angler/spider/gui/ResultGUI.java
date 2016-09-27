@@ -210,10 +210,21 @@ public class ResultGUI extends JFrame {
 				pride.addActionListener(new ActionListener(){
 					@Override
 					public void actionPerformed(ActionEvent arg0) {
-						int year=Integer.parseInt(JOptionPane.showInputDialog(null, "请输入学年", "奖学金分析",JOptionPane.INFORMATION_MESSAGE));
+						String s=JOptionPane.showInputDialog(null, "请输入学年", "奖学金分析",JOptionPane.INFORMATION_MESSAGE);
+						int year=s==null||s.equals("")?0:Integer.parseInt(s);
+						List<Subject> subjects=analyser.getElective(year);
+						double totalGrade=0.0;//成绩*学分
+						StringBuilder sb=new StringBuilder();
+						for(Subject subject:subjects){
+							totalGrade+=(Double.parseDouble(subject.getCredit()))
+									*Double.parseDouble(subject.getGrade());
+							sb.append(subject.getName()).append("|")
+							.append(subject.getCredit()).append("|")
+							.append(subject.getGrade()).append("\n");
+						}
 						JOptionPane.showConfirmDialog(null,
 								"必修："+String.format("%.5f", new Double(analyser.getRequired(year)))+
-								"选修："+String.format("%.5f", new Double(analyser.getElective(year))),
+								"\n选修："+String.format("%.5f", new Double(totalGrade*0.002))+"\n————————————\n"+sb.toString(),
 								"确定", JOptionPane.DEFAULT_OPTION,JOptionPane.INFORMATION_MESSAGE);
 					}
 				});
@@ -223,7 +234,8 @@ public class ResultGUI extends JFrame {
 
 					@Override
 					public void actionPerformed(ActionEvent arg0) {
-						double rest=Double.parseDouble(JOptionPane.showInputDialog(null, "请输入剩余必修学分", "保研",JOptionPane.INFORMATION_MESSAGE));
+						String s=JOptionPane.showInputDialog(null, "请输入剩余必修学分", "保研",JOptionPane.INFORMATION_MESSAGE);
+						double rest=s==null||s.equals("")?0:Double.parseDouble(s);
 						JOptionPane.showConfirmDialog(null,
 								"目前："+String.format("%.5f", new Double(analyser.getPostgraduate()))+
 								"理论："+String.format("%.5f", new Double(analyser.getPostgraduate(rest))),
