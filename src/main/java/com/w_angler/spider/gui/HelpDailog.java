@@ -48,6 +48,7 @@ class HelpDialog extends JDialog{
 				"<p>4、成绩界面，点击导出->导出为Excel,导出Excel</p>"+
 				"<p>5、成绩界面，点击导出->奖学金分析,分析奖学金</p>"+
 				"<p>（仅限于没有将某些选修当做b1）</p>"+
+				"<p>6、成绩界面，点击导出->保研分析,进行保研分析</p>"+
 				"<p></p><br><br>"+
 				"</html>";
 		label.setText(text);
