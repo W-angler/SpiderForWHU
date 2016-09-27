@@ -2,7 +2,6 @@ package com.w_angler.spider.gui;
 
 import java.awt.Dimension;
 import java.awt.FontMetrics;
-import java.awt.Image;
 import java.awt.Toolkit;
 
 import javax.swing.BorderFactory;
@@ -77,9 +76,7 @@ public class LoginGUI extends JFrame {
 		setTitle("登录");
 		setResizable(false);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		Toolkit tool=this.getToolkit();
-		Image logo=tool.getImage(this.getClass().getResource("/images/logo.png"));
-		this.setIconImage(logo);
+		this.setIconImage(getToolkit().getImage(this.getClass().getResource("/images/logo.png")));
 		{
 			//居中显示
 			Dimension screensize = Toolkit.getDefaultToolkit().getScreenSize();
@@ -357,7 +354,7 @@ public class LoginGUI extends JFrame {
 		menu.add(help);
 		menu.add(about);
 
-		JMenuBar  bar=new  JMenuBar();
+		JMenuBar bar=new JMenuBar();
 		bar.setBackground(Color.WHITE);
 		bar.add(menu);
 		this.setJMenuBar(bar);
