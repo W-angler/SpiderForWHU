@@ -1,6 +1,8 @@
 package com.w_angler.spider.subject;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * 分析课程，获得加权绩点，加权平均分
@@ -114,21 +116,26 @@ public class SubjectAnalyser {
 		return totalGrade/totalCredit;
 	}
 	//选修的分数
-	public double getElective(int grade){
-		double totalGrade=0.0;		//成绩*学分
+	public List<Subject> getElective(int grade){
+		List<Subject> topEight=new ArrayList<>();
 		for(int j=0;j<list.size();j++){
 			Subject subject=list.get(j);
 			if(Integer.parseInt(subject.getYear())==grade){
 				if(subject.getType().contains("选修")){
-					if(!list.get(j).getGrade().equals("")){
-						totalGrade+=(Double.parseDouble(list.get(j).getCredit()))
-								*Double.parseDouble(list.get(j).getGrade());
+					if(!subject.getGrade().equals("")){
+						topEight.add(subject);
 					}
 				}
 			}
 		}
-		return totalGrade*0.002;
-	}
+		return topEight.stream()
+				.sorted((subject1,subject2)->{
+					double g1=Double.parseDouble(subject1.getCredit())*Double.parseDouble(subject1.getGrade());
+					double g2=Double.parseDouble(subject2.getCredit())*Double.parseDouble(subject2.getGrade());
+					return g1<g2?1:-1;
+				})
+				.limit(8).collect(Collectors.toList());
+	} 
 	//保研绩点计算
 	/**
 	 * 理论可达最高绩点 
@@ -140,6 +147,10 @@ public class SubjectAnalyser {
 		double totalCredit=0.0+rest;		//总学分
 		for(int j=0;j<list.size();j++){
 			Subject subject=list.get(j);
+			/*
+			 * 可能算上大物
+			 * subject.getName().contains("物理")
+			 */
 			if(subject.getType().contains("必修")){
 				if(!subject.getGrade().equals("")){
 					totalCredit=totalCredit+Double.parseDouble(list.get(j).getCredit());
@@ -148,10 +159,14 @@ public class SubjectAnalyser {
 		}
 		for(int j=0;j<list.size();j++){
 			Subject subject=list.get(j);
+			/*
+			 * 可能算上大物
+			 * subject.getName().contains("物理")
+			 */
 			if(subject.getType().contains("必修")){
 				if(!subject.getGrade().equals("")){
-					totalGPA+=(this.getGPA(list.get(j)))
-							*(Double.parseDouble(list.get(j).getCredit()));
+					totalGPA+=(this.getGPA(subject))
+							*(Double.parseDouble(subject.getCredit()));
 				}
 			}
 		}
