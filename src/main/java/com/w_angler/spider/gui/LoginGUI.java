@@ -246,61 +246,61 @@ public class LoginGUI extends JFrame {
 			loginBT.setBorder(BorderFactory.createLineBorder(new Color(33, 147, 239)));
 			loginBT.setBounds(226, 244, 123, 29);
 			//为按钮添加监听器
-//			contentPane.registerKeyboardAction(new ActionListener(){
-//				@Override
-//				public void actionPerformed(ActionEvent e){
-//					loginBT.setBackground(new Color(30, 144, 255));
-//
-//					String idVal=(String) id.getSelectedItem();
-//					String pwdVal=new String(password.getPassword());
-//					String xdvfbVal=captcha.getText();
-//					Spider.login(Address.login,"id="+idVal,"pwd="+pwdVal,"xdvfb="+xdvfbVal);
-//
-//					String name=Spider.downloadResource(Address.name);
-//
-//					if(name.contains("csrftoken")){
-//						String token=null;
-//						Document doc=Jsoup.parse(name);
-//						Element element=doc.select("li#btn1").first();
-//						Pattern pattern=Pattern.compile("(\\w+)(-\\w+)+");
-//						Matcher m=pattern.matcher(element.attr("onclick"));
-//						if(m.find()){
-//							token=m.group();
-//						}
-//						String result=Spider.downloadResource(Address.subjects+"&csrftoken="+token);
-//						message.setText("登录成功");
-//						image=Spider.downloadImage(Address.img);
-//						picture_label.setIcon(new ImageIcon(image));
-//						Account.add(idVal, new String(password.getPassword()));
-//						Account.save();
-//						new ResultGUI(result,name);
-//					}
-//					else{
-//						String login=Spider.downloadResource(Address.login);
-//						Document doc=Jsoup.parse(login);
-//						String longString = doc.getElementById("alertp").parent().text();
-//						StringBuilder builder = new StringBuilder("<html>");
-//						char[] chars = longString.toCharArray();
-//						FontMetrics fontMetrics = message.getFontMetrics(message.getFont());
-//						for (int beginIndex = 0, limit = 1;; limit++) {
-//							if (fontMetrics.charsWidth(chars, beginIndex, limit) < message.getWidth()) {
-//								if (beginIndex + limit < chars.length) {
-//									continue;
-//								}
-//								builder.append(chars, beginIndex, limit);
-//								break;
-//							}
-//							builder.append(chars, beginIndex, limit - 1).append("<br/>");
-//							beginIndex += limit - 1;
-//							limit = 1;
-//						}
-//						builder.append("</html>");
-//						message.setText(builder.toString());
-//						image=Spider.downloadImage(Address.img);
-//						picture_label.setIcon(new ImageIcon(image));
-//					}
-//				}
-//			}, KeyStroke.getKeyStroke(KeyEvent.VK_ENTER, 0), JComponent.WHEN_IN_FOCUSED_WINDOW);
+			contentPane.registerKeyboardAction(new ActionListener(){
+				@Override
+				public void actionPerformed(ActionEvent e){
+					loginBT.setBackground(new Color(30, 144, 255));
+
+					String idVal=(String) id.getSelectedItem();
+					String pwdVal=new String(password.getPassword());
+					String xdvfbVal=captcha.getText();
+					Spider.login(Address.login,"id="+idVal,"pwd="+pwdVal,"xdvfb="+xdvfbVal);
+
+					String name=Spider.downloadResource(Address.name);
+
+					if(name.contains("csrftoken")){
+						String token=null;
+						Document doc=Jsoup.parse(name);
+						Element element=doc.select("li#btn1").first();
+						Pattern pattern=Pattern.compile("(\\w+)(-\\w+)+");
+						Matcher m=pattern.matcher(element.attr("onclick"));
+						if(m.find()){
+							token=m.group();
+						}
+						String result=Spider.downloadResource(Address.subjects+"&csrftoken="+token);
+						message.setText("登录成功");
+						image=Spider.downloadImage(Address.img);
+						picture_label.setIcon(new ImageIcon(image));
+						Account.add(idVal, new String(password.getPassword()));
+						Account.save();
+						new ResultGUI(result,name);
+					}
+					else{
+						String login=Spider.downloadResource(Address.login);
+						Document doc=Jsoup.parse(login);
+						String longString = doc.getElementById("alertp").parent().text();
+						StringBuilder builder = new StringBuilder("<html>");
+						char[] chars = longString.toCharArray();
+						FontMetrics fontMetrics = message.getFontMetrics(message.getFont());
+						for (int beginIndex = 0, limit = 1;; limit++) {
+							if (fontMetrics.charsWidth(chars, beginIndex, limit) < message.getWidth()) {
+								if (beginIndex + limit < chars.length) {
+									continue;
+								}
+								builder.append(chars, beginIndex, limit);
+								break;
+							}
+							builder.append(chars, beginIndex, limit - 1).append("<br/>");
+							beginIndex += limit - 1;
+							limit = 1;
+						}
+						builder.append("</html>");
+						message.setText(builder.toString());
+						image=Spider.downloadImage(Address.img);
+						picture_label.setIcon(new ImageIcon(image));
+					}
+				}
+			}, KeyStroke.getKeyStroke(KeyEvent.VK_ENTER, 0), JComponent.WHEN_IN_FOCUSED_WINDOW);
 			loginBT.addMouseListener(new MouseListener(){
 				@Override
 				public void mouseClicked(MouseEvent arg0) {
