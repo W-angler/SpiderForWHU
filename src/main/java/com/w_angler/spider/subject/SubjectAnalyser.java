@@ -95,7 +95,7 @@ public class SubjectAnalyser {
 		for(int j=0;j<list.size();j++){
 			Subject subject=list.get(j);
 			if(Integer.parseInt(subject.getYear())==grade){
-				if(subject.getType().contains("必修")){
+				if(subject.getType().contains("必修")&&!subject.getLearnType().contains("辅修")){
 					if(!subject.getGrade().equals("")){
 						totalCredit=totalCredit+Double.parseDouble(list.get(j).getCredit());
 					}
@@ -105,7 +105,7 @@ public class SubjectAnalyser {
 		for(int j=0;j<list.size();j++){
 			Subject subject=list.get(j);
 			if(Integer.parseInt(subject.getYear())==grade){
-				if(subject.getType().contains("必修")){
+				if(subject.getType().contains("必修")&&!subject.getLearnType().contains("辅修")){
 					if(!list.get(j).getGrade().equals("")){
 						totalGrade+=(Double.parseDouble(list.get(j).getCredit()))
 								*Double.parseDouble(list.get(j).getGrade());
@@ -121,7 +121,7 @@ public class SubjectAnalyser {
 		for(int j=0;j<list.size();j++){
 			Subject subject=list.get(j);
 			if(Integer.parseInt(subject.getYear())==grade){
-				if(subject.getType().contains("选修")){
+				if(subject.getType().contains("选修")||subject.getLearnType().contains("辅修")){
 					if(!subject.getGrade().equals("")){
 						topEight.add(subject);
 					}

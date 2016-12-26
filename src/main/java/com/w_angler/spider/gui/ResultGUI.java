@@ -6,8 +6,6 @@ import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Image;
 import java.awt.Toolkit;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.util.Enumeration;
@@ -47,11 +45,11 @@ public class ResultGUI extends JFrame {
 
 	private List<Subject> list;
 	private static String[] headers = {
-		"课头号","课程名称",
-		"课程类型","学分",
-		"教师","授课学院",
-		"学习类型","学年",
-		"学期","成绩"
+			"课头号","课程名称",
+			"课程类型","学分",
+			"教师","授课学院",
+			"学习类型","学年",
+			"学期","成绩"
 	};
 
 	public ResultGUI(String result,String name){
@@ -123,7 +121,7 @@ public class ResultGUI extends JFrame {
 		 */
 		{
 			//菜单
-			JMenu menu=new JMenu("导出");
+			JMenu menu=new JMenu("菜单");
 			menu.setFont(new Font("宋体", Font.PLAIN, 18));
 			//菜单项
 			JMenuItem html=new JMenuItem("导出为HTML");
@@ -140,112 +138,138 @@ public class ResultGUI extends JFrame {
 			pride.setBackground(Color.WHITE);
 			pride.setForeground(new Color(0, 0, 0));
 			pride.setFont(new Font("宋体", Font.PLAIN, 18));
-			
+
+			JMenuItem credit=new JMenuItem("学分");
+			credit.setBackground(Color.WHITE);
+			credit.setForeground(new Color(0, 0, 0));
+			credit.setFont(new Font("宋体", Font.PLAIN, 18));
+
 			JMenuItem postgraduate=new JMenuItem("保研");
 			postgraduate.setBackground(Color.WHITE);
 			postgraduate.setForeground(new Color(0, 0, 0));
 			postgraduate.setFont(new Font("宋体", Font.PLAIN, 18));
 			//添加菜单点击监听器
 			{
-				html.addActionListener(new ActionListener(){
-					@Override
-					public void actionPerformed(ActionEvent e) {
-						Page pageTool=new Page(result, Address.ip);
-						List<String> resourceList=pageTool.getResourceList();
-						//下载成绩网页
-						Spider.saveToFile("result/html/成绩页面.html", result);
-						//下载相关资源
-						for(int i=0;i<resourceList.size();i++){
-							String url=resourceList.get(i);
-							String temp=Spider.downloadResource(url);
-							String path=url.replaceAll("http://"+Address.ip, "result").replaceAll("\\?.*", "");
-							Spider.saveToFile(path, temp);
-						}
-						//按钮图片
-						BufferedImage img1=Spider.downloadImage("http://210.42.121.241/images/btn_bg.png");
-						Spider.saveToFile("result/images/btn_bg.png", img1);
-						BufferedImage img2=Spider.downloadImage("http://210.42.121.241/images/button_bg.png");
-						Spider.saveToFile("result/images/button_bg.png", img2);
-
-						File file=new File("result/html/成绩页面.html");
-						JOptionPane.showConfirmDialog(null,"网页已经导入至："+file.getAbsolutePath(),
-								"确定", JOptionPane.DEFAULT_OPTION,JOptionPane.INFORMATION_MESSAGE);
+				html.addActionListener(e->{
+					Page pageTool=new Page(result, Address.ip);
+					List<String> resourceList=pageTool.getResourceList();
+					//下载成绩网页
+					Spider.saveToFile("result/html/成绩页面.html", result);
+					//下载相关资源
+					for(int i=0;i<resourceList.size();i++){
+						String url=resourceList.get(i);
+						String temp=Spider.downloadResource(url);
+						String path=url.replaceAll("http://"+Address.ip, "result").replaceAll("\\?.*", "");
+						Spider.saveToFile(path, temp);
 					}
+					//按钮图片
+					BufferedImage img1=Spider.downloadImage("http://210.42.121.241/images/btn_bg.png");
+					Spider.saveToFile("result/images/btn_bg.png", img1);
+					BufferedImage img2=Spider.downloadImage("http://210.42.121.241/images/button_bg.png");
+					Spider.saveToFile("result/images/button_bg.png", img2);
+
+					File file=new File("result/html/成绩页面.html");
+					JOptionPane.showConfirmDialog(null,"网页已经导入至："+file.getAbsolutePath(),
+							"确定", JOptionPane.DEFAULT_OPTION,JOptionPane.INFORMATION_MESSAGE);
 				});
 			}
 			{
-				excel.addActionListener(new ActionListener(){
-					@Override
-					public void actionPerformed(ActionEvent e){
-						JFileChooser chooser=new JFileChooser(".");
-						chooser.setSelectedFile(new File("成绩单.xls"));
-						FileFilter filter = new FileNameExtensionFilter("xls",".xls");
-						chooser.setFileFilter(filter);//开始过滤
-						int flag=chooser.showSaveDialog(getParent());
-						if(flag==JFileChooser.APPROVE_OPTION){
-							File file=chooser.getSelectedFile();
-							String fileName=file.getAbsolutePath();
-							if(!fileName.endsWith(".xls")){
-								fileName+=".xls";
-							}
-							if (file.exists()){
-								int copy = JOptionPane.showConfirmDialog(null,"文件已存在，是否要覆盖当前文件？",
-										"保存", JOptionPane.YES_NO_OPTION,JOptionPane.QUESTION_MESSAGE);
-								if (copy == JOptionPane.YES_OPTION){
-									Excel.export(headers, list, fileName);
-									JOptionPane.showConfirmDialog(null,"成绩已经导入至："+fileName,
-											"确定", JOptionPane.DEFAULT_OPTION,JOptionPane.INFORMATION_MESSAGE);
-								}
-							}
-							else{
+				excel.addActionListener(e->{
+					JFileChooser chooser=new JFileChooser(".");
+					chooser.setSelectedFile(new File("成绩单.xls"));
+					FileFilter filter = new FileNameExtensionFilter("xls",".xls");
+					chooser.setFileFilter(filter);//开始过滤
+					int flag=chooser.showSaveDialog(getParent());
+					if(flag==JFileChooser.APPROVE_OPTION){
+						File file=chooser.getSelectedFile();
+						String fileName=file.getAbsolutePath();
+						if(!fileName.endsWith(".xls")){
+							fileName+=".xls";
+						}
+						if (file.exists()){
+							int copy = JOptionPane.showConfirmDialog(null,"文件已存在，是否要覆盖当前文件？",
+									"保存", JOptionPane.YES_NO_OPTION,JOptionPane.QUESTION_MESSAGE);
+							if (copy == JOptionPane.YES_OPTION){
 								Excel.export(headers, list, fileName);
 								JOptionPane.showConfirmDialog(null,"成绩已经导入至："+fileName,
 										"确定", JOptionPane.DEFAULT_OPTION,JOptionPane.INFORMATION_MESSAGE);
 							}
 						}
-					}
-				});
-			}
-			{
-				pride.addActionListener(new ActionListener(){
-					@Override
-					public void actionPerformed(ActionEvent arg0) {
-						String s=JOptionPane.showInputDialog(null, "请输入学年", "奖学金分析",JOptionPane.INFORMATION_MESSAGE);
-						int year=s==null||s.equals("")?0:Integer.parseInt(s);
-						List<Subject> subjects=analyser.getElective(year);
-						double totalGrade=0.0;//成绩*学分
-						StringBuilder sb=new StringBuilder();
-						for(Subject subject:subjects){
-							totalGrade+=(Double.parseDouble(subject.getCredit()))
-									*Double.parseDouble(subject.getGrade());
-							sb.append(subject.getName()).append("|")
-							.append(subject.getCredit()).append("|")
-							.append(subject.getGrade()).append("\n");
+						else{
+							Excel.export(headers, list, fileName);
+							JOptionPane.showConfirmDialog(null,"成绩已经导入至："+fileName,
+									"确定", JOptionPane.DEFAULT_OPTION,JOptionPane.INFORMATION_MESSAGE);
 						}
-						JOptionPane.showConfirmDialog(null,
-								"必修："+String.format("%.5f", new Double(analyser.getRequired(year)))+
-								"\n选修："+String.format("%.5f", new Double(totalGrade*0.002))+"\n————————————\n"+sb.toString(),
-								"确定", JOptionPane.DEFAULT_OPTION,JOptionPane.INFORMATION_MESSAGE);
 					}
 				});
 			}
 			{
-				postgraduate.addActionListener(new ActionListener(){
-
-					@Override
-					public void actionPerformed(ActionEvent arg0) {
-						String s=JOptionPane.showInputDialog(null, "请输入剩余必修学分", "保研",JOptionPane.INFORMATION_MESSAGE);
-						double rest=s==null||s.equals("")?0:Double.parseDouble(s);
-						JOptionPane.showConfirmDialog(null,
-								"目前："+String.format("%.5f", new Double(analyser.getPostgraduate()))+
-								"理论："+String.format("%.5f", new Double(analyser.getPostgraduate(rest))),
-								"确定", JOptionPane.DEFAULT_OPTION,JOptionPane.INFORMATION_MESSAGE);
+				pride.addActionListener(e->{
+					String s=JOptionPane.showInputDialog(null, "请输入学年", "奖学金分析",JOptionPane.INFORMATION_MESSAGE);
+					int year=s==null||s.equals("")?0:Integer.parseInt(s);
+					List<Subject> subjects=analyser.getElective(year);
+					double totalGrade=0.0;//成绩*学分
+					StringBuilder sb=new StringBuilder();
+					for(Subject subject:subjects){
+						totalGrade+=(Double.parseDouble(subject.getCredit()))
+								*Double.parseDouble(subject.getGrade());
+						sb.append(subject.getName()).append("|")
+						.append(subject.getCredit()).append("|")
+						.append(subject.getGrade()).append("\n");
 					}
+					JOptionPane.showConfirmDialog(null,
+							"必修："+String.format("%.5f", new Double(analyser.getRequired(year)))+
+							"\n选修："+String.format("%.5f", new Double(totalGrade*0.002))+"\n————————————\n"+sb.toString(),
+							"确定", JOptionPane.DEFAULT_OPTION,JOptionPane.INFORMATION_MESSAGE);
+				});
+			}
+			{
+				credit.addActionListener(e->{
+					double publicRequired=list.stream()
+							.filter(subject->subject.getType().contains("公共必修"))
+							.map(subject->Double.parseDouble(subject.getCredit()))
+							.reduce((a,b)->a+b)
+							.get();
+					double publicElective=list.stream()
+							.filter(subject->subject.getType().contains("公共选修"))
+							.map(subject->Double.parseDouble(subject.getCredit()))
+							.reduce((a,b)->a+b)
+							.get();
+					double majorRequired=list.stream()
+							.filter(subject->subject.getType().contains("专业必修"))
+							.map(subject->Double.parseDouble(subject.getCredit()))
+							.reduce((a,b)->a+b)
+							.get();
+					double majorElective=list.stream()
+							.filter(subject->subject.getType().contains("专业选修"))
+							.map(subject->Double.parseDouble(subject.getCredit()))
+							.reduce((a,b)->a+b)
+							.get();
+					JOptionPane.showConfirmDialog(null,
+							"公共必修："+String.format("%.1f",publicRequired)+
+							"\n公共选修："+String.format("%.1f",publicElective)+
+							"\n专业必修："+String.format("%.1f",majorRequired)+
+							"\n专业选修："+String.format("%.1f",majorElective)+
+							"\n————————————"+
+							"\n必修："+String.format("%.1f", publicRequired+majorRequired)+
+							"\n选修："+String.format("%.1f", majorElective+publicElective),
+							"确定", JOptionPane.DEFAULT_OPTION,JOptionPane.INFORMATION_MESSAGE);
+				});
+			}
+			{
+				postgraduate.addActionListener(e->{
+					String s=JOptionPane.showInputDialog(null, "请输入剩余必修学分", "保研",JOptionPane.INFORMATION_MESSAGE);
+					double rest=s==null||s.equals("")?0:Double.parseDouble(s);
+					JOptionPane.showConfirmDialog(null,
+							"目前："+String.format("%.5f", new Double(analyser.getPostgraduate()))+
+							"理论："+String.format("%.5f", new Double(analyser.getPostgraduate(rest))),
+							"确定", JOptionPane.DEFAULT_OPTION,JOptionPane.INFORMATION_MESSAGE);
 				});
 			}
 			menu.add(html);
 			menu.add(excel);
 			menu.add(pride);
+			menu.add(credit);
 			menu.add(postgraduate);
 
 			JMenuBar bar=new JMenuBar();
@@ -279,7 +303,7 @@ public class ResultGUI extends JFrame {
 			int width = (int) table.getTableHeader().getDefaultRenderer()
 					.getTableCellRendererComponent(table,
 							column.getIdentifier(), false, false, -1, col)
-							.getPreferredSize().getWidth();
+					.getPreferredSize().getWidth();
 			for (int row = 0; row < rowCount; row++) {
 				int preferedWidth = (int) table.getCellRenderer(row, col)
 						.getTableCellRendererComponent(table,
